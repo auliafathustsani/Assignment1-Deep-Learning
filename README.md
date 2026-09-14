@@ -1,6 +1,6 @@
 # Assignment 1 — Single Layer Perceptron
 
-Implementasi Single Layer Perceptron (SLP) untuk klasifikasi biner data Iris Setosa dan Iris Versicolor menggunakan Google Sheet dan Python.
+Implementasi **Single Layer Perceptron (SLP)** untuk klasifikasi biner spesies Iris Setosa dan Iris Versicolor menggunakan Google Sheets dan Python.
 
 ## Identitas
 
@@ -11,12 +11,12 @@ Implementasi Single Layer Perceptron (SLP) untuk klasifikasi biner data Iris Set
 
 ## Deskripsi
 
-Model digunakan untuk mengklasifikasikan dua kelas:
+Model Single Layer Perceptron digunakan untuk mengklasifikasikan dua spesies dalam dataset Iris:
 
 * Iris Setosa sebagai kelas `0`
 * Iris Versicolor sebagai kelas `1`
 
-Dataset terdiri atas 100 data dengan empat fitur:
+Dataset diambil menggunakan fungsi `load_iris()` dari library Scikit-learn. Sebanyak 100 data dari dua kelas digunakan, dengan empat fitur:
 
 * Sepal length
 * Sepal width
@@ -25,10 +25,8 @@ Dataset terdiri atas 100 data dengan empat fitur:
 
 Data dibagi menjadi:
 
-* 80 data training
-* 20 data validation
-
-Masing-masing kelompok data memiliki jumlah kelas yang seimbang.
+* 80 data training, terdiri atas 40 Iris Setosa dan 40 Iris Versicolor
+* 20 data validation, terdiri atas 10 Iris Setosa dan 10 Iris Versicolor
 
 ## Parameter Model
 
@@ -39,46 +37,65 @@ Masing-masing kelompok data memiliki jumlah kelas yang seimbang.
 * Fungsi aktivasi: Sigmoid
 * Batas klasifikasi: `0.5`
 * Loss function: Mean Squared Error (MSE)
+* Metode pembaruan: Online gradient descent
 
 ## Tahapan Perhitungan
 
-1. Memasukkan data Iris Setosa dan Iris Versicolor.
-2. Mengubah label kelas menjadi nilai numerik `0` dan `1`.
-3. Membagi data menjadi data training dan validation.
-4. Menghitung nilai masukan model menggunakan bobot dan bias.
-5. Mengubah nilai tersebut menggunakan fungsi sigmoid.
-6. Menentukan kelas prediksi menggunakan batas `0.5`.
-7. Menghitung error dan squared error.
-8. Memperbarui bobot dan bias pada setiap data training.
-9. Menghitung accuracy dan MSE pada setiap epoch.
-10. Membandingkan hasil Google Sheet dengan hasil Python.
+1. Mengambil dataset Iris menggunakan `load_iris()`.
+2. Memilih data Iris Setosa dan Iris Versicolor.
+3. Menggunakan target `0` untuk Iris Setosa dan `1` untuk Iris Versicolor.
+4. Membagi data menjadi data training dan validation.
+5. Menghitung nilai masukan berdasarkan fitur, bobot, dan bias.
+6. Menghitung output menggunakan fungsi aktivasi sigmoid.
+7. Menentukan kelas prediksi menggunakan batas `0.5`.
+8. Menghitung error dan squared error.
+9. Memperbarui bobot dan bias pada setiap data training.
+10. Menghitung accuracy dan MSE pada setiap epoch.
+11. Melakukan validation menggunakan bobot hasil training tanpa memperbarui bobot.
+12. Membandingkan hasil training dan validation melalui tabel dan grafik.
+
+Rumus error, squared error, MSE, accuracy, output, dan pembaruan bobot dikelompokkan ke dalam fungsi. Perulangan digunakan untuk memproses setiap data training, data validation, dan setiap epoch.
 
 ## Hasil
 
 | Epoch | Training Accuracy | Validation Accuracy | Training MSE | Validation MSE |
 | ----: | ----------------: | ------------------: | -----------: | -------------: |
-|     1 |            52.50% |              50.00% |     0.449889 |       0.328951 |
-|     2 |            95.00% |              50.00% |     0.037452 |       0.247289 |
-|     3 |            97.50% |              50.00% |     0.024372 |       0.175892 |
-|     4 |            97.50% |              85.00% |     0.017357 |       0.119381 |
-|     5 |            98.75% |             100.00% |     0.012740 |       0.081581 |
+|     1 |            52.50% |              50.00% |     0.450046 |       0.328014 |
+|     2 |            95.00% |              50.00% |     0.037215 |       0.246373 |
+|     3 |            97.50% |              50.00% |     0.024224 |       0.175153 |
+|     4 |            97.50% |              85.00% |     0.017254 |       0.118946 |
+|     5 |            98.75% |             100.00% |     0.012664 |       0.081341 |
 
-Hasil perhitungan Python sama dengan hasil perhitungan pada Google Sheet. Accuracy training meningkat dari 52.50% menjadi 98.75%, sedangkan accuracy validation meningkat dari 50.00% menjadi 100.00%. Nilai MSE training dan validation juga terus menurun selama proses training.
+Accuracy training meningkat dari 52.50% menjadi 98.75%, sedangkan accuracy validation meningkat dari 50.00% menjadi 100.00%. Nilai MSE training dan validation juga menurun pada setiap epoch. Hasil tersebut menunjukkan bahwa model semakin baik dalam membedakan Iris Setosa dan Iris Versicolor.
 
 ## Struktur Repository
 
 ```text
 Assignment1-Deep-Learning/
 ├── README.md
-└── assignment1_slp_aulia(534388).py
+├── assignment1_slp_aulia(534388).py
+└── hasil/
+    ├── hasil_slp.xlsx
+    ├── 01_accuracy_training_validation.png
+    └── 02_loss_training_validation.png
 ```
+
+## File Hasil
+
+Program menghasilkan beberapa file:
+
+* `hasil_slp.xlsx`, berisi tabel data awal, pembagian dataset, dan hasil setiap epoch.
+* `01_accuracy_training_validation.png`, berisi grafik accuracy training dan validation.
+* `02_loss_training_validation.png`, berisi grafik MSE training dan validation.
 
 ## Library yang Digunakan
 
 * NumPy
 * Pandas
 * Matplotlib
+* Scikit-learn
 * IPython
+* Openpyxl
 
 ## Cara Menjalankan
 
@@ -87,13 +104,11 @@ Kode dapat dijalankan menggunakan Google Colab.
 1. Buka Google Colab.
 2. Unggah file `assignment1_slp_aulia(534388).py`.
 3. Jalankan seluruh kode.
-4. Program akan menampilkan tabel hasil training dan validation.
-5. Grafik akan disimpan dengan nama:
+4. Program akan mengambil dataset Iris secara otomatis.
+5. Program akan menampilkan contoh data awal, tabel pembagian dataset, tabel hasil setiap epoch, dan grafik.
+6. Tabel dan grafik hasil akan disimpan secara otomatis.
 
-   * `01_accuracy_training_validation.png`
-   * `02_loss_training_validation.png`
-
-Data Iris sudah dimasukkan langsung ke dalam kode sehingga tidak memerlukan file CSV tambahan.
+Program tidak memerlukan file CSV atau file dataset tambahan karena dataset Iris diambil langsung melalui Scikit-learn.
 
 ## Project Links
 
@@ -105,5 +120,7 @@ Data Iris sudah dimasukkan langsung ke dalam kode sehingga tidak memerlukan file
 
 * Fisher, R. A. (1936). The use of multiple measurements in taxonomic problems. *Annals of Eugenics, 7*(2), 179–188.
 * Goodfellow, I., Bengio, Y., & Courville, A. (2016). *Deep Learning*. MIT Press.
+* [Scikit-learn Iris Dataset](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html)
 * [NumPy Documentation](https://numpy.org/doc/)
-* [Matplotlib Documentation](https://matplotlib.org/)
+* [Pandas Documentation](https://pandas.pydata.org/docs/)
+* [Matplotlib Documentation](https://matplotlib.org/stable/)
